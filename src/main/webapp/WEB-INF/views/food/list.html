@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Food List</title>
+    <style>
+        td {
+            width: 200px;
+            height: 50px;
+            background-color: green;
+            text-align: center;
+        }
+        th {
+            width: 200px;
+            height: 50px;
+            background-color: brown;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<a href="/store/show">Store</a>
+<a href="/food/create">Create new food</a>
+<h1>Foods</h1>
+<form>
+    Search by name:
+    <input name="s" type="text"/>
+    <input type="submit" value="Search"/>
+</form><br/>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Chef</th>
+        <th>Price</th>
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>Add To Store</th>
+    </tr>
+    <th:block th:each="food : ${foods}">
+        <tr>
+            <td th:text="${food.name}"></td>
+            <td th:text="${food.chef}"></td>
+            <td th:text="${food.price}"></td>
+            <td><a th:href="@{/food/edit/__${food.id}__ }">Edit</a></td>
+            <td><a th:href="@{/food/delete/__${food.id}__ }">Delete</a></td>
+            <td><a th:href="@{/food/add/__${food.id}__(action='list') }">Add To Store</a></td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <a th:href="@{'/foods'(page=${foods.number - 1})}" th:if="${foods.hasPrevious()}">Previous</a>
+    <span th:text="${foods.number + 1}"></span>/<span th:text="${foods.totalPages}"></span>
+    <a th:href="@{'/foods'(page=${foods.number + 1})}" th:if="${foods.hasNext()}">Next</a>
+</div>
+</body>
+</html>

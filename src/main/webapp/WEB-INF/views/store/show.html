@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Store</title>
+    <style>
+        #increase_button, #decrease_button {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: 1px solid black;
+            background-color: aliceblue;
+            text-align: center;
+            text-decoration: none;
+        }
+        td {
+            width: 200px;
+            height: 50px;
+            background-color: lightpink;
+            text-align: center;
+        }
+        th {
+            width: 200px;
+            height: 50px;
+            background-color: cornflowerblue;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<p>
+    <a href="/food/list">Food list</a>
+</p>
+<h1 th:text="${'Items in Store'}"></h1>
+<form action="#" th:object="${store}" method="post">
+    <h3>Total Items: <span th:text="${store.countItemQuantity()}"></span></h3>
+    <h3>Total Foods: <span th:text="${store.countFoodQuantity()}"></span></h3>
+    <table border="1">
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        <tr th:each="food: ${store.foods}">
+            <td><a th:href="@{/food/view/__${food.getKey().id}__ }" th:text="${food.getKey().name}" ></a></td>
+            <td>
+                <a id="decrease_button" th:href="@{/food/remove/__${food.getKey().id}__(action='show') }" th:text="${'-'}"></a>
+                <span th:text="${food.getValue()}" ></span>
+                <a id="increase_button" th:href="@{/food/add/__${food.getKey().id}__(action='show') }" th:text="${'+'}"></a>
+            </td>
+            <td th:text="${food.getKey().price}" ></td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td></td>
+            <td th:text="${store.countTotalPayment()}"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
